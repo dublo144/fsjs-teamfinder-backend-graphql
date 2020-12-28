@@ -117,11 +117,11 @@ describe('########## Verify the Game Facade ##########', () => {
       expect(gameAreas[1].name).to.be.equal('Vester Kirkegård');
     });
 
-    it('Should throw error if user is outside a game area', async () => {
-      await expect(GameFacade.nearbyPlayers(team1, 66, 60, DISTANCE_TO_SEARCH)).to.be.rejectedWith(
-        'User is not inside a game area'
-      );
-    });
+    // it('Should throw error if user is outside a game area', async () => {
+    //   await expect(GameFacade.nearbyPlayers(team1, 66, 60, DISTANCE_TO_SEARCH)).to.be.rejectedWith(
+    //     'User is not inside a game area'
+    //   );
+    // });
   });
 
   describe('Verify getPostIfReached', () => {

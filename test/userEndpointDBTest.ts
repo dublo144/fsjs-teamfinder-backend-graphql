@@ -35,7 +35,7 @@ describe('####### Verify the User Endpoints (/api/users) ##########', function (
     expect(result.msg).to.be.equal('Hello');
   });
 
-  it.only('Should sign in', async () => {
+  it('Should sign in', async () => {
     const body = { userName: 'pp@b.dk', password: 'secret' };
     const config = {
       method: 'POST',
