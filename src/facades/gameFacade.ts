@@ -30,25 +30,12 @@ const nearbyPlayers = async (user: IGameUser, longitude: number, latitude: numbe
   }));
 };
 
-const getUserGameAreas = async (longitude: number, latitude: number) => {
-  const currentLocation: IPoint = { type: 'Point', coordinates: [longitude, latitude] };
-  const gameAreas: Array<IGameArea> = await GameAreaModel.find({
-    location: {
-      $geoIntersects: {
-        $geometry: currentLocation
-      }
-    }
-  });
-  return gameAreas;
-};
-
 const getAllGameAreasWithinRadius = async (
   longitude: number,
   latitude: number,
   radius: number
 ): Promise<Array<IGameArea>> => {
   const currentLocation: IPoint = { type: 'Point', coordinates: [longitude, latitude] };
-  console.log(currentLocation);
   const gameAreas: Array<any> = await GameAreaModel.find({
     location: {
       $near: {
@@ -109,6 +96,18 @@ const updateUserLocation = async (userName: string, longitude: number, latitude:
   await PositionModel.findOneAndUpdate(filter, update, opts);
 
   return point;
+};
+
+const getUserGameAreas = async (longitude: number, latitude: number) => {
+  const currentLocation: IPoint = { type: 'Point', coordinates: [longitude, latitude] };
+  const gameAreas: Array<IGameArea> = await GameAreaModel.find({
+    location: {
+      $geoIntersects: {
+        $geometry: currentLocation
+      }
+    }
+  });
+  return gameAreas;
 };
 
 export const GameFacade = {

@@ -42,7 +42,6 @@ export const resolvers = {
       return await GameFacade.nearbyPlayers(user, longitude, latitude, radius);
     },
     getGameAreasWithinRadius: async (_: any, { input }: any, { user }: any) => {
-      console.log(user);
       if (!user) throw new AuthenticationError('Unauthenticated. Please sign in.');
       const { longitude, latitude, radius } = input;
       return await GameFacade.getAllGameAreasWithinRadius(longitude, latitude, radius);

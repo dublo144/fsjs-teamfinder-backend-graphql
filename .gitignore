@@ -1,8 +1,8 @@
 
 node_modules
+exam_examples
 build
 logs
 
 .env
 .vscode
-

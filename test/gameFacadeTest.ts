@@ -9,6 +9,8 @@ import PositionModel, { IPosition } from '../src/models/PositionModel';
 import { UserFacade } from '../src/facades/userFacade';
 import GameAreaModel from '../src/models/GameAreaModel';
 
+const debug = require('debug')('test');
+
 chai.use(chaiAsPromised);
 
 const DISTANCE_TO_SEARCH = 100;
@@ -22,9 +24,9 @@ describe('########## Verify the Game Facade ##########', () => {
         { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
       )
       .then(() => {
-        console.log(`🚀 Connected to ${process.env.MONGO_DB_TEST} 🚀`);
+        debug(`🚀 Connected to ${process.env.MONGO_DB_TEST} 🚀`);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => debug(e));
   });
 
   beforeEach(async () => {

@@ -10,6 +10,8 @@ import { ApolloServer } from 'apollo-server-express';
 import { authenticationContextMiddleware } from './middlewares/authContextMiddleware';
 import http from 'http';
 
+const debug = require('debug')('app');
+
 const server = new ApolloServer({
   modules: [require('./graphql/modules/user'), require('./graphql/modules/game')],
   subscriptions: {
@@ -37,7 +39,7 @@ app.use(authenticateToken);
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 // Add if needed
-app.use(requestLogger);
+// app.use(requestLogger);
 // app.use(errorLogger)
 
 app.use(express.json());
@@ -78,10 +80,10 @@ mongoose
   )
   .then(() =>
     httpServer.listen(port, () => {
-      console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
-      console.log(`🚀 SubscriptionServer ready at http://localhost:4000${server.subscriptionsPath}`);
+      debug(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
+      debug(`🚀 SubscriptionServer ready at http://localhost:${port}${server.subscriptionsPath}`);
     })
   )
-  .catch((e) => console.log(e));
+  .catch((e) => debug(e));
 
 //export const server = app;

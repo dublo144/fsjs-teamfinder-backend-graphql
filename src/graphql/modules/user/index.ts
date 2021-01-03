@@ -2,6 +2,8 @@ import { gql, AuthenticationError } from 'apollo-server-express';
 import { UserFacade } from '../../../facades/userFacade';
 import { IGameUser } from '../../../models/UserModel';
 
+const debug = require('debug')('userModule');
+
 export const typeDefs = gql`
   type User {
     name: String
@@ -44,7 +46,7 @@ export const resolvers = {
         const users = await UserFacade.getUsers();
         return users;
       } catch (error) {
-        console.log(error);
+        debug(error);
         throw error;
       }
     },
@@ -54,7 +56,7 @@ export const resolvers = {
         const userData = await UserFacade.getUser(username);
         return userData;
       } catch (error) {
-        console.log(error);
+        debug(error);
         throw error;
       }
     },

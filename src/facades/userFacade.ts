@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import UserModel, { IGameUser } from '../models/UserModel';
 import * as jwt from 'jsonwebtoken';
 
-const debug = require('debug')('facade-with-db');
+const debug = require('debug')('userfacade');
 
 const getUsers = async (): Promise<Array<IGameUser>> => {
   const all = await UserModel.find();
@@ -23,13 +23,19 @@ const addUser = async (user: IGameUser): Promise<IGameUser> => {
     password: hash
   });
 
+  debug(`${user.userName} was successfully created`);
+
   return authorizeUser(user.userName, user.password);
 };
 
 const deleteUser = async (userName: string): Promise<IGameUser> => {
   const user: IGameUser | null = await UserModel.findOne({ userName });
   if (!user) throw new Error('User does not exist');
+
   await UserModel.remove({ userName });
+
+  debug(`${user.userName} was successfully deleted`);
+
   return user;
 };
 
@@ -44,7 +50,7 @@ const authorizeUser = async (userName: string, password: string): Promise<IGameU
         password: ''
       },
       process.env.TOKEN_SECRET!,
-      { expiresIn: '24h' } // change to 1h
+      { expiresIn: '24h' }
     );
     return {
       ...user._doc,
@@ -53,7 +59,7 @@ const authorizeUser = async (userName: string, password: string): Promise<IGameU
       tokenExpiration: 1
     };
   } catch (error) {
-    console.log(error);
+    debug(error);
     throw new Error('Invalid Credentials');
   }
 };

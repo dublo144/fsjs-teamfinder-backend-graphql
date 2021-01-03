@@ -13,7 +13,6 @@ const polygonForClient = {
 };
 
 router.get('/gamearea', (req, res) => {
-  console.log('hello');
   res.json(polygonForClient);
 });
 
@@ -45,7 +44,6 @@ router.get('/findNearbyPlayers/:lon/:lat/:rad', (req, res) => {
 router.get('/distanceToUser/:lon/:lat/:username', (req, res) => {
   const { lon, lat, username } = req.params;
   const point = { type: 'Point', coordinates: [Number(lon), Number(lat)] };
-  console.log(point, username);
   const user = players.find((player) => {
     return player.properties.name === username;
   });

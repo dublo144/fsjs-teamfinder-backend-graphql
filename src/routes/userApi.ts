@@ -1,20 +1,19 @@
 import express from 'express';
 import { UserFacade } from '../facades/userFacade';
 import { ApiError } from '../errors/apiError';
-import authMiddleware from '../middlewares/basic-auth';
-import { getConnectedClient } from '../config/setupDB';
-const debug = require('debug')('user-endpoint');
+const debug = require('debug')('userAPI');
 
 export const router = express.Router();
 
-// const USE_AUTHENTICATION = !process.env.SKIP_AUTHENTICATION;
 const USE_AUTHENTICATION = process.env.SKIP_AUTHENTICATION === 'false';
 
 router.get('/', async (req, res, next) => {
+  debug(req.method + ' ' + req.url);
   res.json(await UserFacade.getUsers());
 });
 
 router.post('/signIn', async (req, res, next) => {
+  debug(req.method + ' ' + req.url);
   try {
     const { userName, password } = req.body;
     const user = await UserFacade.authorizeUser(userName, password);
@@ -25,6 +24,7 @@ router.post('/signIn', async (req, res, next) => {
 });
 
 router.post('/', async function (req, res, next) {
+  debug(req.method + ' ' + req.url);
   try {
     let newUser = req.body;
     newUser.role = 'user'; //Even if a hacker tried to "sneak" in his own role, this is what you get
@@ -37,6 +37,7 @@ router.post('/', async function (req, res, next) {
 });
 
 router.get('/:userName', async function (req: any, res, next) {
+  debug(req.method + ' ' + req.url);
   try {
     const user_Name = req.params.userName;
     const user = await UserFacade.getUser(user_Name);
@@ -52,6 +53,7 @@ router.get('/:userName', async function (req: any, res, next) {
 });
 
 router.get('/user/me', async function (req: any, res, next) {
+  debug(req.method + ' ' + req.url);
   try {
     const user_Name = req.userName;
     const user = await UserFacade.getUser(user_Name);
@@ -64,6 +66,7 @@ router.get('/user/me', async function (req: any, res, next) {
 });
 
 router.get('/', async function (req: any, res, next) {
+  debug(req.method + ' ' + req.url);
   try {
     if (USE_AUTHENTICATION) {
       const role = req.role;
@@ -83,6 +86,7 @@ router.get('/', async function (req: any, res, next) {
 });
 
 router.delete('/:userName', async function (req: any, res, next) {
+  debug(req.method + ' ' + req.url);
   try {
     if (USE_AUTHENTICATION) {
       const role = req.role;

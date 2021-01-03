@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import UserModel, { IGameUser } from '../src/models/UserModel';
 
-const debug = require('debug')('facade-with-db:test');
+const debug = require('debug')('test');
 
 // Setup Chai with additional features to test async
 const expect = chai.expect;
@@ -19,9 +19,9 @@ describe('########## User Facade Test ##########', () => {
         { useNewUrlParser: true, useUnifiedTopology: true }
       )
       .then(() => {
-        console.log(`🚀 Connected to ${process.env.MONGO_DB_TEST} 🚀`);
+        debug(`🚀 Connected to ${process.env.MONGO_DB_TEST} 🚀`);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => debug(e));
   });
 
   beforeEach(async () => {
