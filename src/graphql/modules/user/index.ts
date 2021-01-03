@@ -25,6 +25,11 @@ export const typeDefs = gql`
     password: String!
   }
 
+  input UpdateUser {
+    name: String
+    userName: String
+  }
+
   extend type Query {
     users: [User!]!
     user(username: String!): User!
@@ -33,6 +38,7 @@ export const typeDefs = gql`
 
   extend type Mutation {
     createUser(UserInput: UserInput!): AuthenticatedUser!
+    updateUser(UpdateUser: UpdateUser!): User!
     deleteUser(username: String!): User!
   }
 `;
@@ -67,6 +73,9 @@ export const resolvers = {
   Mutation: {
     createUser: async (_: any, { UserInput }: any) => {
       return await UserFacade.addUser(UserInput);
+    },
+    updateUser: async (_: any, { UpdateUser }: any, { user }: any) => {
+      return await UserFacade.updateUser(user, UpdateUser);
     },
     deleteUser: async (_: any, { username }: any) => {
       return await UserFacade.deleteUser(username);

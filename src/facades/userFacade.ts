@@ -28,6 +28,12 @@ const addUser = async (user: IGameUser): Promise<IGameUser> => {
   return authorizeUser(user.userName, user.password);
 };
 
+const updateUser = async (user: IGameUser, update: any): Promise<IGameUser | null> => {
+  // @ts-ignore
+  const updated = await UserModel.findOneAndUpdate({ userName: user.userName }, { ...update }, { new: true });
+  return updated;
+};
+
 const deleteUser = async (userName: string): Promise<IGameUser> => {
   const user: IGameUser | null = await UserModel.findOne({ userName });
   if (!user) throw new Error('User does not exist');
@@ -68,6 +74,7 @@ export const UserFacade = {
   getUsers,
   getUser,
   addUser,
+  updateUser,
   deleteUser,
   authorizeUser
 };
