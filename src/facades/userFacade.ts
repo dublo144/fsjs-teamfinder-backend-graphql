@@ -6,7 +6,7 @@ const debug = require('debug')('userfacade');
 
 const getUsers = async (): Promise<Array<IGameUser>> => {
   const all = await UserModel.find();
-  return all;
+  return all.map((user: any) => ({ ...user._doc, password: null }));
 };
 
 const getUser = async (userName: string): Promise<IGameUser> => {

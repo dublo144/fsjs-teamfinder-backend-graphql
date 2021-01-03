@@ -9,7 +9,8 @@ const USE_AUTHENTICATION = process.env.SKIP_AUTHENTICATION === 'false';
 
 router.get('/', async (req, res, next) => {
   debug(req.method + ' ' + req.url);
-  res.json(await UserFacade.getUsers());
+  const users = await UserFacade.getUsers();
+  res.json(users);
 });
 
 router.post('/signIn', async (req, res, next) => {
